@@ -19,6 +19,19 @@
             border-radius: 5px;
             text-align: center;
         }
+        nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        nav a {
+            color: #4C6375;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
         section {
             background-color: #fff;
             padding: 20px;
@@ -46,58 +59,80 @@
             margin-top: 20px;
             text-align: center;
         }
+        .accordion {
+            cursor: pointer;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            transition: 0.4s;
+        }
+        .accordion:hover, .active {
+            background-color: #ccc;
+        }
+        .panel {
+            padding: 0 18px;
+            display: none;
+            background-color: white;
+            overflow: hidden;
+        }
     </style>
 </head>
 <body>
     <header>
         <h1>ReadableCode</h1>
+        <nav>
+            <a href="#about">About Me</a>
+            <a href="#projects">Projects</a>
+            <a href="#collaborate">Collaborate</a>
+        </nav>
     </header>
 
-    <section>
+    <section id="about">
         <h2>About Me</h2>
         <p>
             Greetings! I'm a passionate developer dedicated to crafting elegant and efficient solutions to complex challenges. My current endeavors reflect my commitment to enhancing usability and bridging gaps in various software ecosystems. Here's a glimpse into my ongoing projects:
         </p>
     </section>
 
-    <section>
+    <section id="projects">
         <h2>Current Projects</h2>
         <ul>
             <li>
-                <h3>Sync Application for Removable Storage</h3>
-                <p>
-                    I'm developing a synchronization application tailored for removable storage. This application ensures seamless syncing of sensitive directories, such as Git repositories, while handling line-ending conversions, local discovery, and sync change management. Additionally, I'm incorporating the option to symlink externally post-sync.
-                </p>
+                <button class="accordion">Sync Application for Removable Storage</button>
+                <div class="panel">
+                    <p>I'm developing a synchronization application tailored for removable storage. This application ensures seamless syncing of sensitive directories, such as Git repositories, while handling line-ending conversions, local discovery, and sync change management. Additionally, I'm incorporating the option to symlink externally post-sync.</p>
+                </div>
             </li>
             <li>
-                <h3>Dotfile Sync Application</h3>
-                <p>
-                    My work involves creating a dotfile synchronization application. This tool empowers me to apply settings to non-configurable applications on mobile devices through AHK, Tasker, and iOS actions. This will also pull configurations over SSH or SCP from devices that generally dont support symlinking into a git repo like my router and unraid server. The goal is to achieve a consistent experience across platforms.
-                </p>
+                <button class="accordion">Dotfile Sync Application</button>
+                <div class="panel">
+                    <p>My work involves creating a dotfile synchronization application. This tool empowers me to apply settings to non-configurable applications on mobile devices through AHK, Tasker, and iOS actions. This will also pull configurations over SSH or SCP from devices that generally dont support symlinking into a git repo like my router and unraid server. The goal is to achieve a consistent experience across platforms.</p>
+                </div>
             </li>
             <li>
-                <h3>DIY Pocket Laptop</h3>
-                <p>
-                    My ongoing project involves building a do-it-yourself pocket laptop. This laptop is designed for remote accessibility over Tailscale, VNC, and a built-in KVM. I'm excited to create a powerful yet compact solution for on-the-go computing.
-                </p>
+                <button class="accordion">DIY Pocket Laptop</button>
+                <div class="panel">
+                    <p>My ongoing project involves building a do-it-yourself pocket laptop. This laptop is designed for remote accessibility over Tailscale, VNC, and a built-in KVM. I'm excited to create a powerful yet compact solution for on-the-go computing.</p>
+                </div>
             </li>
             <li>
-                <h3>Portable Rack Solution</h3>
-                <p>
-                    I'm designing a cost-effective and user-friendly portable rack that can be seamlessly integrated into off-brand Pelican cases. This endeavor combines practicality with portability for a variety of applications.
-                </p>
+                <button class="accordion">Portable Rack Solution</button>
+                <div class="panel">
+                    <p>I'm designing a cost-effective and user-friendly portable rack that can be seamlessly integrated into off-brand Pelican cases. This endeavor combines practicality with portability for a variety of applications.</p>
+                </div>
             </li>
             <li>
-                <h3>Pocketable Laptop Enclosure for Galaxy Z Fold 4</h3>
-                <p>
-                    As part of my pursuits, I'm working on a pocketable laptop-type enclosure tailored for the Galaxy Z Fold 4. This project aims to maximize the potential of cutting-edge hardware while ensuring a compact form factor.
-                </p>
+                <button class="accordion">Pocketable Laptop Enclosure for Galaxy Z Fold 4</button>
+                <div class="panel">
+                    <p>As part of my pursuits, I'm working on a pocketable laptop-type enclosure tailored for the Galaxy Z Fold 4. This project aims to maximize the potential of cutting-edge hardware while ensuring a compact form factor.</p>
+                </div>
             </li>
-
         </ul>
     </section>
 
-    <section>
+    <section id="collaborate">
         <h2>Collaboration and Engagement</h2>
         <p>
             I'm enthusiastic about collaborating with fellow developers and enthusiasts on these projects. Whether you're interested in contributing, have questions, or would like to explore potential synergies, please don't hesitate to reach out. Let's join forces to drive innovation and create impactful solutions together.
@@ -107,8 +142,21 @@
         </p>
     </section>
 
-    <footer>
-        <p>© 2023 ReadableCode</p>
-    </footer>
+    <script>
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                } else {
+                    panel.style.display = "block";
+                }
+            });
+        }
+    </script>
 </body>
 </html>
