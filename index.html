@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +13,7 @@
             max-width: 800px;
             margin: auto;
         }
+
         header {
             background-color: #4C6375;
             color: #F8F8F8;
@@ -19,46 +21,35 @@
             border-radius: 5px;
             text-align: center;
         }
+
         nav {
             display: flex;
             justify-content: center;
             margin-top: 10px;
         }
+
         nav a {
             color: #4C6375;
             margin: 0 10px;
             text-decoration: none;
         }
+
         nav a:hover {
             text-decoration: underline;
         }
+
         section {
             background-color: #fff;
             padding: 20px;
             margin-top: 20px;
             border-radius: 5px;
         }
-        h1, h2 {
+
+        h1,
+        h2 {
             color: #4C6375;
         }
-        h3 {
-            color: #825f87;
-        }
-        p {
-            text-align: justify;
-            color: #333;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-        footer {
-            margin-top: 20px;
-            text-align: center;
-        }
+
         .accordion {
             cursor: pointer;
             padding: 10px;
@@ -67,10 +58,17 @@
             text-align: left;
             outline: none;
             transition: 0.4s;
+            font-size: 16px;
+            display: flex;
+            justify-content: space-between;
+            background: none;
         }
-        .accordion:hover, .active {
+
+        .accordion:hover,
+        .active {
             background-color: #ccc;
         }
+
         .panel {
             padding: 0 18px;
             display: none;
@@ -79,6 +77,7 @@
         }
     </style>
 </head>
+
 <body>
     <header>
         <h1>ReadableCode</h1>
@@ -92,9 +91,7 @@
     <section id="about">
         <h2>About Me</h2>
         <p>
-            Greetings! I am a passionate developer dedicated to automation and documentation-as-code type solutionts to issues I
-            find interesting. These are my personal projects and this account only hold my non-professional codebases. Please
-            comment, fork and contribute as you see fit. I am always looking for ways to improve my code and learn new things.
+            Greetings! I am a passionate developer dedicated to automation and documentation-as-code type solutionts to issues I find interesting. These are my personal projects and this account only hold my non-professional codebases. Please comment, fork and contribute as you see fit. I am always looking for ways to improve my code and learn new things.
         </p>
     </section>
 
@@ -102,53 +99,49 @@
         <h2>Current Projects</h2>
         <ul>
             <li>
-                <button class="accordion">Python, Rust and Go based data tool packs to allow for data science and analytics without all the setup</button>
+                <button class="accordion">Python, Rust, and Go Data Tool Packs ▼</button>
                 <div class="panel">
-                    <p>I'm working on Python, Rust and Go based data tool packs that enable data science and analytics professionals to access
-                    different platforms (e.g. Snowflake, RDS, AWS S3, Vault, Databricks) easily without all the setup. This initiative seeks
-                    to empower users with efficient and high-performance tools for data processing, analysis, and visualization.</p>
+                    <p>I'm working on Python, Rust and Go based data tool packs that enable data science and analytics professionals to access different platforms (e.g. Snowflake, RDS, AWS S3, Vault, Databricks) easily without all the setup. This initiative seeks to empower users with efficient and high-performance tools for data processing, analysis, and visualization.</p>
+                    <a href="https://github.com/ReadableCode/Data_Tool_Pack_Py">Python Repo</a><br>
+                    <a href="https://github.com/ReadableCode/Data_Tool_Pack_GO">Go Repo</a><br>
+                    <a href="https://github.com/ReadableCode/Data_Tool_Pack_RS">Rust Repo</a>
                 </div>
             </li>
             <li>
-                <button class="accordion">Terminal Based Kanban Board Using Linux Commands for Manipulation</button>
+                <button class="accordion">Terminal Based Kanban Board ▼</button>
                 <div class="panel">
-                    <p>I'm developing a terminal-based Kanban board that leverages Linux-like commands for manipulation. This project aims to
-                    streamline task management and enhance productivity by providing a seamless interface for organizing and tracking tasks.</p>
+                    <p>I'm developing a terminal-based Kanban board that leverages Linux-like commands for manipulation. This project aims to streamline task management and enhance productivity by providing a seamless interface for organizing and tracking tasks.</p>
+                    <a href="https://github.com/ReadableCode/Terminal_To_Do">Check it out</a>
                 </div>
             </li>
             <li>
-                <button class="accordion">Dotfile Sync Application</button>
+                <button class="accordion">Dotfile Sync Application ▼</button>
                 <div class="panel">
                     <p>My work involves creating a dotfile synchronization application. This tool empowers me to apply settings to
-                    non-configurable applications on mobile devices through AHK, Tasker, and iOS actions. This will also pull configurations
-                    over SSH or SCP from devices that generally dont support symlinking into a git repo like my router and unraid server.
-                    The goal is to achieve a consistent experience across platforms.</p>
+                    non-configurable applications on mobile devices through AHK, Tasker, and iOS actions. This will also pull configurations over SSH or SCP from devices that generally dont support symlinking into a git repo like my router and unraid server. The goal is to achieve a consistent experience across platforms.
+                    </p>
+                    <a href="https://github.com/ReadableCode/dotfiles">Check it out</a>
                 </div>
             </li>
             <li>
-                <button class="accordion">A Girl's Guide to Georgetown</button>
+                <button class="accordion">A Girl's Guide to Georgetown ▼</button>
                 <div class="panel">
-                    <p>This project provides high school students in Georgetown, Texas, with a structured backend while allowing them full
-                    creative control over the frontend. The backend, built in Go with Fiber, dynamically serves pages without requiring
-                    container rebuilds. It is deployed via Docker Compose on a Linux server, reverse-proxied through SWAG, and managed with
-                    Cloudflare and DuckDNS. Students handle the HTML, CSS, and JavaScript, ensuring they can iterate freely without backend
-                    constraints. This setup fosters student-led development while maintaining a stable and scalable foundation.</p>
+                    <p>This project provides high school students in Georgetown, Texas, with a structured backend while allowing them full creative control over the frontend. The backend, built in Go with Fiber, dynamically serves pages without requiring container rebuilds. It is deployed via Docker Compose on a Linux server, reverse-proxied through SWAG, and managed with Cloudflare and DuckDNS. Students handle the HTML, CSS, and JavaScript, ensuring they can iterate freely without backend constraints. This setup fosters student-led development while maintaining a stable and scalable foundation.</p>
+                    <a href="https://github.com/ReadableCode/a_girls_guide_to_georgetown">Check it out</a>
                 </div>
             </li>
             <li>
-                <button class="accordion">Sync Application for Removable Storage</button>
+                <button class="accordion">Sync Application for Removable Storage ▼</button>
                 <div class="panel">
-                    <p>I'm developing a synchronization application tailored for removable storage. This application ensures seamless syncing
-                    of sensitive directories, such as Git repositories, while handling line-ending conversions, local discovery, and sync
-                    change management. Additionally, I'm incorporating the option to symlink externally post-sync.</p>
+                    <p>I'm developing a synchronization application tailored for removable storage. This application ensures seamless syncing of sensitive directories, such as Git repositories, while handling line-ending conversions, local discovery, and sync change management. Additionally, I'm incorporating the option to symlink externally post-sync.</p>
+                    <a href="https://github.com/ReadableCode/Sync_Plex">Check it out</a>
                 </div>
             </li>
             <li>
-                <button class="accordion">A 2D game written in C# using the Unity engine</button>
+                <button class="accordion">A 2D Game in Unity ▼</button>
                 <div class="panel">
-                    <p>I'm developing a 2D game with my wonderful wife using C# and the Unity engine. This project aims to showcase my
-                    creativity and programming skills while exploring the intricacies of game development. I'm excited to bring this vision
-                    to life and create an engaging gaming experience. This one is not open source yet.</p>
+                    <p>I'm developing a 2D game with my wonderful wife using C# and the Unity engine. This project aims to showcase my creativity and programming skills while exploring the intricacies of game development. I'm excited to bring this vision to life and create an engaging gaming experience. This one is not open source yet.</p>
+                    <p>Not open source yet.</p>
                 </div>
             </li>
         </ul>
@@ -160,8 +153,6 @@
             I'm enthusiastic about collaborating with fellow developers and enthusiasts on these projects. Whether you're interested
             in contributing, have questions, or would like to explore potential synergies, please don't hesitate to reach out. Let's
             join forces to drive innovation and create impactful solutions together.
-        </p>
-        <p>
             Feel free to connect with me if you're intrigued by any of these initiatives. Your insights and contributions are highly
             valued!
         </p>
@@ -169,10 +160,8 @@
 
     <script>
         var acc = document.getElementsByClassName("accordion");
-        var i;
-
-        for (i = 0; i < acc.length; i++) {
-            acc[i].addEventListener("click", function() {
+        for (var i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
                 this.classList.toggle("active");
                 var panel = this.nextElementSibling;
                 if (panel.style.display === "block") {
@@ -184,4 +173,5 @@
         }
     </script>
 </body>
+
 </html>
