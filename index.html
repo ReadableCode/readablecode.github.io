@@ -4,241 +4,712 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ReadableCode</title>
+    <title>ReadableCode — Jason Christiansen</title>
+    <meta name="description"
+        content="Jason Christiansen (ReadableCode) — developer focused on automation, modular tools, and self-hosting. Interactive terminal portfolio.">
     <style>
+        :root {
+            --slate: #4C6375;
+            --slate-light: #7c96ab;
+            --slate-lighter: #a9c0d2;
+            --bg: #0e1620;
+            --bg-panel: #16212e;
+            --bg-panel-2: #1d2b3a;
+            --fg: #dce6ef;
+            --fg-dim: #8fa3b5;
+            --green: #6fcf97;
+            --amber: #f2c94c;
+            --red: #eb5757;
+            --border: #26374a;
+            --mono: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", Menlo, Consolas, monospace;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        }
+
+        [data-theme="light"] {
+            --bg: #eef2f6;
+            --bg-panel: #ffffff;
+            --bg-panel-2: #f2f6fa;
+            --fg: #1e2b38;
+            --fg-dim: #566878;
+            --border: #cdd9e3;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f8f8;
-            padding: 20px;
-            max-width: 800px;
-            margin: auto;
+            margin: 0;
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--fg);
+            line-height: 1.6;
+            transition: background .3s, color .3s;
         }
 
-        header {
-            background-color: #4C6375;
-            color: #F8F8F8;
-            padding: 10px;
-            border-radius: 5px;
-            text-align: center;
+        a {
+            color: var(--slate-lighter);
         }
 
-        nav {
+        [data-theme="light"] a {
+            color: var(--slate);
+        }
+
+        .wrap {
+            max-width: 940px;
+            margin: 0 auto;
+            padding: 24px 18px 64px;
+        }
+
+        header.top {
             display: flex;
-            justify-content: center;
-            margin-top: 10px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
         }
 
-        nav a {
-            color: #4C6375;
-            margin: 0 10px;
+        header.top h1 {
+            font-size: 1.15rem;
+            margin: 0;
+            font-family: var(--mono);
+            letter-spacing: .5px;
+        }
+
+        header.top h1 .caret {
+            color: var(--green);
+        }
+
+        .toplinks a {
+            margin-left: 14px;
             text-decoration: none;
+            font-size: .9rem;
         }
 
-        nav a:hover {
+        .toplinks a:hover {
             text-decoration: underline;
         }
 
-        section {
-            background-color: #fff;
-            padding: 20px;
-            margin-top: 20px;
-            border-radius: 5px;
-        }
-
-        h1,
-        h2 {
-            color: #4C6375;
-        }
-
-        .accordion {
+        .btn {
+            font: inherit;
+            font-size: .85rem;
+            background: var(--bg-panel-2);
+            color: var(--fg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 5px 11px;
             cursor: pointer;
-            padding: 10px;
-            width: 100%;
+        }
+
+        .btn:hover {
+            border-color: var(--slate-light);
+        }
+
+        /* Terminal */
+        .term {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, .35);
+        }
+
+        .term-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            background: var(--bg-panel-2);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+        }
+
+        .dot.r {
+            background: #ff5f56;
+        }
+
+        .dot.y {
+            background: #ffbd2e;
+        }
+
+        .dot.g {
+            background: #27c93f;
+        }
+
+        .term-title {
+            margin-left: 8px;
+            color: var(--fg-dim);
+            font-family: var(--mono);
+            font-size: .8rem;
+        }
+
+        .term-body {
+            font-family: var(--mono);
+            font-size: .9rem;
+            padding: 16px;
+            height: 340px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .term-body .line {
+            margin: 0 0 2px;
+        }
+
+        .prompt-user {
+            color: var(--green);
+        }
+
+        .prompt-path {
+            color: var(--slate-light);
+        }
+
+        .out-dim {
+            color: var(--fg-dim);
+        }
+
+        .out-accent {
+            color: var(--slate-lighter);
+        }
+
+        .out-amber {
+            color: var(--amber);
+        }
+
+        .input-row {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            font-family: var(--mono);
+            font-size: .9rem;
+            padding: 0 16px 16px;
+        }
+
+        .input-row .ps1 {
+            color: var(--green);
+            white-space: nowrap;
+        }
+
+        #cmd {
+            flex: 1;
+            background: transparent;
             border: none;
-            text-align: left;
+            color: var(--fg);
+            font: inherit;
             outline: none;
-            transition: 0.4s;
-            font-size: 16px;
+        }
+
+        .hint {
+            color: var(--fg-dim);
+            font-size: .82rem;
+            margin: 10px 2px 0;
+            font-family: var(--mono);
+        }
+
+        section {
+            margin-top: 48px;
+        }
+
+        h2 {
+            font-family: var(--mono);
+            color: var(--slate-lighter);
+            font-size: 1.15rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+        }
+
+        [data-theme="light"] h2 {
+            color: var(--slate);
+        }
+
+        /* Herd monitor */
+        .herd {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .node {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--mono);
+            font-size: .85rem;
+        }
+
+        .glyph {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--fg-dim);
+            flex: none;
+            transition: background .3s, box-shadow .3s;
+        }
+
+        .node.pending .glyph {
+            background: var(--amber);
+            animation: pulse 1s infinite;
+        }
+
+        .node.online .glyph {
+            background: var(--green);
+            box-shadow: 0 0 8px var(--green);
+        }
+
+        .node.offline .glyph {
+            background: var(--red);
+        }
+
+        .node .ms {
+            margin-left: auto;
+            color: var(--fg-dim);
+            font-size: .75rem;
+        }
+
+        @keyframes pulse {
+            50% {
+                opacity: .35;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .node.pending .glyph {
+                animation: none;
+            }
+        }
+
+        /* Live proof */
+        .proof {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 18px 20px;
+            margin-top: 16px;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .proof .badge {
+            font-family: var(--mono);
+            font-size: .8rem;
+            color: var(--green);
+            border: 1px solid var(--green);
+            border-radius: 20px;
+            padding: 4px 12px;
+        }
+
+        /* Project cards */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 14px;
+            margin-top: 16px;
+        }
+
+        .card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px 18px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            border-color: var(--slate-light);
+        }
+
+        .card h3 {
+            margin: 0 0 6px;
+            font-size: 1rem;
+        }
+
+        .card h3 a {
+            text-decoration: none;
+        }
+
+        .card h3 a:hover {
+            text-decoration: underline;
+        }
+
+        .card p {
+            margin: 0 0 12px;
+            font-size: .9rem;
+            color: var(--fg-dim);
+        }
+
+        .tags {
+            margin-top: auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tag {
+            font-family: var(--mono);
+            font-size: .7rem;
+            background: var(--bg-panel-2);
+            border: 1px solid var(--border);
+            color: var(--slate-lighter);
+            border-radius: 5px;
+            padding: 2px 7px;
+        }
+
+        /* Skills */
+        .skills {
+            margin-top: 16px;
+        }
+
+        .skillrow {
+            display: flex;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+        }
+
+        .skillrow .area {
+            font-family: var(--mono);
+            color: var(--slate-lighter);
+            min-width: 160px;
+            font-size: .9rem;
+        }
+
+        .skillrow .tools {
+            color: var(--fg-dim);
+            font-size: .9rem;
+        }
+
+        footer {
+            margin-top: 56px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            color: var(--fg-dim);
+            font-size: .88rem;
             display: flex;
             justify-content: space-between;
-            background: none;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
-        .accordion:hover,
-        .active {
-            background-color: #ccc;
+        footer a {
+            text-decoration: none;
         }
 
-        .panel {
-            padding: 0 18px;
-            display: none;
-            background-color: white;
-            overflow: hidden;
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .skip {
+            position: absolute;
+            left: -999px;
+        }
+
+        .skip:focus {
+            left: 8px;
+            top: 8px;
+            background: var(--slate);
+            color: #fff;
+            padding: 8px;
+            border-radius: 6px;
+            z-index: 10;
         }
     </style>
 </head>
 
 <body>
-    <header>
-        <h1>ReadableCode</h1>
-        <nav>
-            <a href="#about">About Me</a>
-            <a href="#projects">Projects</a>
-            <a href="#collaborate">Collaborate</a>
-        </nav>
-    </header>
+    <a href="#projects" class="skip">Skip to projects</a>
+    <div class="wrap">
+        <header class="top">
+            <h1><span class="caret">❯</span> readablecode</h1>
+            <nav class="toplinks">
+                <a href="https://site.tinkernet.me" target="_blank" rel="noopener">live&nbsp;site&nbsp;↗</a>
+                <a href="https://github.com/ReadableCode" target="_blank" rel="noopener">github&nbsp;↗</a>
+                <button class="btn" id="theme-btn" aria-label="Toggle theme">◐ theme</button>
+            </nav>
+        </header>
 
-    <section id="about">
-        <h2>About Me</h2>
-        <p>
-            Greetings! I am a passionate developer dedicated to automation and modular solutions to issues I find
-            interesting. These
-            are my personal projects and this account only holds my non-professional codebases. Please comment, fork and
-            contribute
-            as you see fit. I am always looking for ways to improve my code and learn new things.
-        </p>
-    </section>
+        <!-- DEMO 1: terminal -->
+        <div class="term" id="term">
+            <div class="term-bar">
+                <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+                <span class="term-title">jason@readablecode: ~</span>
+            </div>
+            <div class="term-body" id="term-body" aria-live="polite"></div>
+            <div class="input-row" id="input-row">
+                <span class="ps1">jason@readablecode:~$</span>
+                <input id="cmd" autocomplete="off" autocapitalize="off" spellcheck="false"
+                    aria-label="Terminal input" />
+            </div>
+        </div>
+        <p class="hint">Type <strong>help</strong> and hit enter. Try <strong>projects</strong>,
+            <strong>skills</strong>, or <strong>curl /api/my-info</strong>. (↑/↓ history, Tab completes.)</p>
 
-    <section id="projects">
-        <h2>Current Projects</h2>
-        <ul>
-            <li>
-                <button class="accordion">Python, Rust, and Go Data Tool Packs ▼</button>
-                <div class="panel">
-                    <p>I'm working on Python, Rust and Go based data tool packs that enable data science and analytics
-                        professionals to access different platforms (e.g. Snowflake, RDS, AWS S3, Vault, Databricks)
-                        easily without all the setup. This initiative seeks to empower users with efficient and
-                        high-performance tools for data processing, analysis, and visualization.</p>
-                    <p><a href="https://github.com/ReadableCode/Data_Tool_Pack_Py">Python Repo</a><br></p>
-                    <p><a href="https://github.com/ReadableCode/Data_Tool_Pack_GO">Go Repo</a><br></p>
-                    <p><a href="https://github.com/ReadableCode/Data_Tool_Pack_RS">Rust Repo</a></p>
-                </div>
-            </li>
-            <li>
-                <button class="accordion">Terminal Based Kanban Board ▼</button>
-                <div class="panel">
-                    <p>I'm developing a terminal-based Kanban board that leverages Linux-like commands for manipulation.
-                        This project aims to streamline task management and enhance productivity by providing a seamless
-                        interface for organizing and tracking tasks.</p>
-                    <p><strong>Stack:</strong></p>
-                    <ul>
-                        <li><strong>Frontend:</strong> Python-based TUI</li>
-                        <li><strong>Storage:</strong> Self-hosted S3-compatible (MinIO)</li>
-                        <li><strong>Hosting:</strong> Designed to run locally on Windows or Linux</li>
-                    </ul>
-                    <p><a href="https://github.com/ReadableCode/Terminal_To_Do">Check it out</a></p>
-                </div>
-            </li>
-            <li>
-                <button class="accordion">AI-Powered eBook Organizer (Offline-First) ▼</button>
-                <div class="panel">
-                    <p>A smart eBook renaming and organization tool that processes messy ebook folders and uses a local
-                        large language model
-                        (no internet or accounts required) to identify metadata like author, series, series order, and
-                        title. It restructures
-                        your library into a clean, nested format by author and series. Built for full local use, but
-                        easily swappable to OpenAI
-                        or other APIs if desired.</p>
-                    <p><strong>Stack:</strong></p>
-                    <ul>
-                        <li><strong>Frontend:</strong> Python for the TUI</li>
-                        <li><strong>Storage:</strong> Self hosted PostgreSQL Database</li>
-                        <li><strong>Hosting:</strong> PostgresQL database running in Docker and exposed through
-                            TailScale</li>
-                    </ul>
-                    <p><a href="https://github.com/ReadableCode/Book-Bot">Check it out</a></p>
-                </div>
-            </li>
-            <li>
-                <button class="accordion">Dotfile Sync Application ▼</button>
-                <div class="panel">
-                    <p>My work involves creating a dotfile synchronization application. This tool empowers me to apply
-                        settings to
-                        non-configurable applications on mobile devices through AHK, Tasker, and iOS actions. This will
-                        also pull configurations over SSH or SCP from devices that generally dont support symlinking
-                        into a git repo like my router and unraid server. The goal is to achieve a consistent experience
-                        across platforms.
-                    </p>
-                    <a href="https://github.com/ReadableCode/dotfiles">Check it out</a>
-                </div>
-            </li>
-            <li>
-                <button class="accordion">A Girl's Guide to Georgetown ▼</button>
-                <div class="panel">
-                    <p>This project provides high school students in Georgetown, Texas, with a structured backend while
-                        allowing them full creative control over the frontend. The backend, built in Go with Fiber,
-                        dynamically serves pages without requiring container rebuilds. It is deployed via Docker Compose
-                        on a Linux server, reverse-proxied through SWAG, and managed with Cloudflare and DuckDNS.
-                        Students handle the HTML, CSS, and JavaScript, ensuring they can iterate freely without backend
-                        constraints. This setup fosters student-led development while maintaining a stable and scalable
-                        foundation.</p>
-                    <p><strong>Stack:</strong></p>
-                    <ul>
-                        <li><strong>Frontend:</strong> HTML, CSS, JavaScript</li>
-                        <li><strong>Backend:</strong> Go with Fiber</li>
-                        <li><strong>Hosting:</strong> Self-hosted Kubernetes cluster (K3S)</li>
-                        <li><strong>Ingress:</strong> NGINX reverse proxy with SWAG in Docker-Compose</li>
-                    </ul>
-                    <p><a href="https://github.com/ReadableCode/a_girls_guide_to_georgetown">Check it out</a></p>
-                </div>
-            </li>
-            <li>
-                <button class="accordion">Sync Application for Removable Storage ▼</button>
-                <div class="panel">
-                    <p>I'm developing a synchronization application tailored for removable storage. This application
-                        ensures seamless syncing of sensitive directories, such as Git repositories, while handling
-                        line-ending conversions, local discovery, and sync change management. Additionally, I'm
-                        incorporating the option to symlink externally post-sync.</p>
-                    <p><strong>Stack:</strong></p>
-                    <ul>
-                        <li><strong>Frontend:</strong> Python for the TUI</li>
-                        <li><strong>Storage:</strong> Designed for local storage</li>
-                        <li><strong>Hosting:</strong> Built for local running in Windows or Linux for internal or
-                            attached storage (could include network maps)</li>
-                    </ul>
-                    <p><a href="https://github.com/ReadableCode/Sync_Plex">Check it out</a></p>
-                </div>
-            </li>
-            <li>
-                <button class="accordion">A 2D Game in Unity ▼</button>
-                <div class="panel">
-                    <p>I'm developing a 2D game with my wonderful wife using C# and the Unity engine. This project aims
-                        to showcase my creativity and programming skills while exploring the intricacies of game
-                        development. I'm excited to bring this vision to life and create an engaging gaming experience.
-                        This one is not open source yet.</p>
-                    <p>Not open source yet.</p>
-                </div>
-            </li>
-        </ul>
-    </section>
+        <!-- DEMO 2: herd monitor -->
+        <section id="herd">
+            <h2>// herd monitor</h2>
+            <p class="out-dim" style="font-family:var(--mono);font-size:.85rem;">A nod to <a
+                    href="https://github.com/ReadableCode/herdstone" target="_blank" rel="noopener">herdstone</a> —
+                concurrent pings fanning out across a fleet. <button class="btn" id="reping">re-ping</button></p>
+            <div class="herd" id="herd-grid"></div>
+        </section>
 
-    <section id="collaborate">
-        <h2>Collaboration and Engagement</h2>
-        <p>
-            I'm enthusiastic about collaborating with fellow developers and enthusiasts on these projects. Whether
-            you're interested
-            in contributing, have questions, or would like to explore potential synergies, please don't hesitate to
-            reach out. Let's
-            join forces to drive innovation and create impactful solutions together.
-            Feel free to connect with me if you're intrigued by any of these initiatives. Your insights and
-            contributions are highly
-            valued!
-        </p>
-    </section>
+        <!-- DEMO 3: live proof analog -->
+        <section id="proof-sec">
+            <h2>// live &amp; self-hosted</h2>
+            <div class="proof">
+                <span class="badge" id="proof-badge">● checking live site…</span>
+                <div style="flex:1;min-width:200px;">
+                    <div id="proof-text" class="out-dim" style="font-size:.9rem;">
+                        The twin of this page at <a href="https://site.tinkernet.me" target="_blank"
+                            rel="noopener">site.tinkernet.me</a> is served live from my own homelab —
+                        React front end, FastAPI back end, behind a self-hosted reverse proxy with real uptime.
+                        This GitHub Pages copy is the fast static mirror.
+                    </div>
+                </div>
+                <a class="btn" href="https://site.tinkernet.me" target="_blank" rel="noopener"
+                    style="text-decoration:none;">see it live ↗</a>
+            </div>
+        </section>
+
+        <!-- Projects (graphical fallback / full content) -->
+        <section id="projects">
+            <h2>// projects</h2>
+            <div class="cards" id="cards"></div>
+        </section>
+
+        <!-- Skills -->
+        <section id="skills">
+            <h2>// skills</h2>
+            <div class="skills" id="skills-list"></div>
+        </section>
+
+        <footer>
+            <span>Built &amp; self-hosted by Jason Christiansen · always up for collaboration.</span>
+            <span>
+                <a href="https://site.tinkernet.me" target="_blank" rel="noopener">live site</a> ·
+                <a href="https://github.com/ReadableCode" target="_blank" rel="noopener">github</a>
+            </span>
+        </footer>
+    </div>
 
     <script>
-        var acc = document.getElementsByClassName("accordion");
-        for (var i = 0; i < acc.length; i++) {
-            acc[i].addEventListener("click", function () {
-                this.classList.toggle("active");
-                var panel = this.nextElementSibling;
-                if (panel.style.display === "block") {
-                    panel.style.display = "none";
-                } else {
-                    panel.style.display = "block";
-                }
+        // ---- Canonical data (mirrors the live site + profile) ----
+        const PROJECTS = [
+            { id: "data-tool-pack", name: "Data Tool Pack (Py·Go·Rust)", url: "https://github.com/ReadableCode/Data_Tool_Pack_Py", blurb: "Batteries-included data-engineering toolkit: uniform connectors for Snowflake, Databricks, S3, Vault, DuckDB, Google Workspace, and Looker — analytics without the setup tax. Three language editions.", tags: ["Python", "Go", "Rust", "data"] },
+            { id: "herdstone", name: "herdstone", url: "https://github.com/ReadableCode/herdstone", blurb: "A machine-herd monitor: one Python engine, three thin UIs (Typer CLI, Textual TUI, NiceGUI web) that import it in-process — no internal REST layer. Concurrent ping fan-out, JSON-driven inventory, Ansible importer.", tags: ["Python", "Textual", "asyncio"] },
+            { id: "load-log", name: "load-log", url: "https://github.com/ReadableCode/load-log", blurb: "Health tracker with a Textual TUI and Streamlit web UI over a shared data plane. Neither UI touches Postgres directly — both go through PostgREST with JWT auth and Row-Level Security.", tags: ["PostgREST", "JWT", "RLS"] },
+            { id: "postgrest-auth", name: "postgrest-auth", url: "https://github.com/ReadableCode/postgrest-auth", blurb: "A small, app-agnostic JWT auth microservice beside PostgREST: POST /token verifies a bcrypt hash and returns a JWT carrying the Postgres role + user id for RLS. Add once, reuse everywhere.", tags: ["FastAPI", "JWT", "bcrypt"] },
+            { id: "book-bot", name: "Book-Bot", url: "https://github.com/ReadableCode/Book-Bot", blurb: "Offline-first, AI-powered eBook organizer. A local LLM (no internet/accounts) infers author, series, order & title from messy folders and rebuilds clean nested libraries — with a swap path to hosted APIs.", tags: ["Python", "local-LLM", "SQLite"] },
+            { id: "terminal-todo", name: "Terminal To-Do", url: "https://github.com/ReadableCode/Terminal_To_Do", blurb: "A terminal Kanban board driven by Linux-like commands, with pluggable cloud-backed storage (self-hosted MinIO/S3 or Google Sheets).", tags: ["Python", "TUI", "MinIO"] },
+            { id: "dotfiles", name: "dotfiles", url: "https://github.com/ReadableCode/dotfiles", blurb: "Cross-platform config-sync & provisioning across Linux, Windows, macOS, Android, a router, and a NAS. Pulls configs over SSH/SCP, provisions with Ansible, ships a Go git_puller cross-compiled for four targets.", tags: ["Ansible", "Go", "Bash"] },
+            { id: "trojan-force", name: "Trojan-Force", url: "https://github.com/ReadableCode/Trojan-Force", blurb: "A browser tower-defense game (TypeScript + Phaser 3 + Vite): mine resources, build supply chains, survive 20 waves. Hand-rolled pathfinding, resource manager, and event bus.", tags: ["TypeScript", "Phaser 3"] },
+            { id: "docker", name: "Self-hosted platform", url: "https://github.com/ReadableCode/Docker", blurb: "The infra everything runs on: multi-host Docker Compose behind a SWAG reverse proxy with automatic TLS + dynamic DNS, private registry, self-hosted secrets, metrics — plus push-to-master auto-deploy.", tags: ["Docker", "SWAG", "self-hosting"] },
+            { id: "duck-db-api", name: "duck_db_api", url: "https://github.com/ReadableCode/duck_db_api", blurb: "A thin FastAPI service over DuckDB for ad-hoc table create/insert/query, with basic safety guards and file-upload ingestion.", tags: ["FastAPI", "DuckDB"] },
+            { id: "cash-flow-commander", name: "Cash Flow Commander", url: "https://github.com/ReadableCode/Cash_Flow_Commander", blurb: "A personal-finance manager designed for multiple front-ends over pluggable storage backends — Postgres today, Sheets/SQLite/Excel planned.", tags: ["Python", "Postgres"] },
+            { id: "georgetown", name: "A Girl's Guide to Georgetown", url: "https://github.com/ReadableCode/a_girls_guide_to_georgetown", blurb: "A student-led dev platform: a Go/Fiber backend dynamically serves pages so students own the HTML/CSS/JS and iterate without backend rebuilds.", tags: ["Go", "Fiber", "Docker"] }
+        ];
+        const SKILLS = [
+            ["Languages", "Python (uv), TypeScript, Go, Rust, SQL, Bash / PowerShell / AutoHotkey, C#"],
+            ["Web / API", "FastAPI, React 19 + Vite, Streamlit, NiceGUI, Phaser 3"],
+            ["TUI / CLI", "Textual, Typer, custom terminal apps"],
+            ["Data", "pandas, DuckDB, warehouse connectors (Snowflake/Databricks/Looker), OCR/PDF"],
+            ["Databases / storage", "PostgreSQL + PostgREST, Alembic + RLS, SQLite, MinIO/S3, Vault"],
+            ["Auth / security", "JWT (HS256), bcrypt, Postgres Row-Level Security"],
+            ["Infra / DevOps", "Docker & multi-host Compose, SWAG + TLS + dynamic DNS, private registry, Ansible, k3s, Tailscale, uv, push-to-master auto-deploy"],
+            ["AI", "Local-LLM inference with a swappable OpenAI backend"]
+        ];
+        const BIO = `Greetings! I'm Jason — "ReadableCode". I'm a developer dedicated to automation
+and modular, reusable solutions to problems I find interesting. Everything here
+is a personal project; most of it runs on a self-hosted homelab wired together
+with Docker and auto-deployed on push. Please comment, fork, and contribute.`;
+        const NODES = ["atlas", "nimbus", "cinder", "willow", "pascal", "juniper", "onyx", "harbor"];
+
+        // ---- Terminal ----
+        const body = document.getElementById("term-body");
+        const input = document.getElementById("cmd");
+        const history = [];
+        let histIdx = -1;
+
+        function print(html, cls) {
+            const div = document.createElement("div");
+            div.className = "line" + (cls ? " " + cls : "");
+            div.innerHTML = html;
+            body.appendChild(div);
+            body.scrollTop = body.scrollHeight;
+        }
+        function esc(s) { return s.replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c])); }
+
+        const COMMANDS = {
+            help() {
+                print("available commands:", "out-accent");
+                print("  about      whoami       skills");
+                print("  projects   open &lt;name&gt;   ls");
+                print("  curl /api/my-info         theme");
+                print("  clear      help");
+            },
+            about() { BIO.split("\n").forEach(l => print(esc(l))); },
+            whoami() { print("jason — ReadableCode. developer, automator, homelab tinkerer.", "out-accent"); },
+            skills() {
+                SKILLS.forEach(([a, t]) => print("<span class='out-accent'>" + esc(a).padEnd(22) + "</span>" + esc(t)));
+            },
+            projects() {
+                print("open a project with <span class='out-amber'>open &lt;name&gt;</span> — e.g. <span class='out-amber'>open herdstone</span>", "out-dim");
+                PROJECTS.forEach(p => print("  <span class='out-accent'>" + esc(p.id).padEnd(22) + "</span>" + esc(p.name)));
+            },
+            ls() { print(PROJECTS.map(p => p.id).join("   "), "out-dim"); },
+            clear() { body.innerHTML = ""; },
+            theme() { toggleTheme(); print("theme toggled.", "out-dim"); }
+        };
+
+        function openProject(name) {
+            const p = PROJECTS.find(x => x.id === name || x.name.toLowerCase() === (name || "").toLowerCase());
+            if (!p) { print("no such project: " + esc(name || "") + "  (try <span class='out-amber'>projects</span>)", "out-amber"); return; }
+            print("<span class='out-accent'>" + esc(p.name) + "</span>");
+            print(esc(p.blurb), "out-dim");
+            print("→ <a href='" + p.url + "' target='_blank' rel='noopener'>" + p.url + "</a>");
+            print("opening in a new tab…", "out-dim");
+            window.open(p.url, "_blank", "noopener");
+        }
+
+        function curlMyInfo() {
+            print("<span class='out-dim'>$ curl https://site.tinkernet.me/api/my-info</span>");
+            BIO.split("\n").forEach(l => print(esc(l)));
+            print("");
+            print("↑ on this static mirror that's a canned copy. On the live site it's my", "out-dim");
+            print("real FastAPI backend answering — try it yourself:", "out-dim");
+            print("<span class='out-amber'>curl https://site.tinkernet.me/api/my-info</span>");
+        }
+
+        function run(raw) {
+            const cmd = raw.trim();
+            print("<span class='prompt-user'>jason@readablecode</span>:<span class='prompt-path'>~</span>$ " + esc(cmd));
+            if (!cmd) return;
+            history.push(cmd); histIdx = history.length;
+            const [name, ...rest] = cmd.split(/\s+/);
+            const arg = rest.join(" ");
+            if (name === "open") return openProject(arg);
+            if (name === "curl") {
+                if (/my-info/.test(cmd)) return curlMyInfo();
+                print("this terminal only knows <span class='out-amber'>curl /api/my-info</span>.", "out-amber"); return;
+            }
+            if (COMMANDS[name]) return COMMANDS[name]();
+            print("command not found: " + esc(name) + "  — type <span class='out-amber'>help</span>", "out-amber");
+        }
+
+        input.addEventListener("keydown", e => {
+            if (e.key === "Enter") { run(input.value); input.value = ""; }
+            else if (e.key === "ArrowUp") { if (histIdx > 0) { histIdx--; input.value = history[histIdx]; } e.preventDefault(); }
+            else if (e.key === "ArrowDown") { if (histIdx < history.length - 1) { histIdx++; input.value = history[histIdx]; } else { histIdx = history.length; input.value = ""; } e.preventDefault(); }
+            else if (e.key === "Tab") {
+                e.preventDefault();
+                const all = Object.keys(COMMANDS).concat(["open", "curl"]);
+                const cur = input.value.trim();
+                const m = all.filter(c => c.startsWith(cur));
+                if (m.length === 1) input.value = m[0] + " ";
+                else if (m.length > 1) print(m.join("   "), "out-dim");
+            }
+        });
+        document.getElementById("term").addEventListener("click", () => input.focus());
+
+        // boot
+        print("<span class='out-accent'>readablecode</span> // portfolio terminal — v1.0", "");
+        print("type <span class='out-amber'>help</span> to get started, or scroll for the graphical view.", "out-dim");
+        print("");
+
+        // ---- Herd monitor ----
+        const grid = document.getElementById("herd-grid");
+        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        function buildHerd() {
+            grid.innerHTML = "";
+            NODES.forEach(n => {
+                const d = document.createElement("div");
+                d.className = "node pending";
+                d.innerHTML = "<span class='glyph'></span><span>" + n + "</span><span class='ms'>…</span>";
+                grid.appendChild(d);
             });
         }
+        function ping() {
+            const nodes = [...grid.children];
+            nodes.forEach((node, i) => {
+                node.className = "node pending";
+                node.querySelector(".ms").textContent = "…";
+                const delay = reduce ? 0 : 200 + Math.random() * 1600;
+                setTimeout(() => {
+                    const up = Math.random() > 0.18;
+                    node.className = "node " + (up ? "online" : "offline");
+                    node.querySelector(".ms").textContent = up ? Math.round(6 + Math.random() * 40) + "ms" : "timeout";
+                }, delay);
+            });
+        }
+        buildHerd(); ping();
+        document.getElementById("reping").addEventListener("click", ping);
+
+        // ---- Live proof (graceful optional fetch) ----
+        (function () {
+            const badge = document.getElementById("proof-badge");
+            const ctrl = new AbortController();
+            const t = setTimeout(() => ctrl.abort(), 3500);
+            fetch("https://site.tinkernet.me/api/status", { signal: ctrl.signal, mode: "cors" })
+                .then(r => r.ok ? r.text() : Promise.reject())
+                .then(txt => {
+                    clearTimeout(t);
+                    const m = txt.match(/([\d.]+)/);
+                    badge.textContent = m ? "● live · uptime " + Math.round(parseFloat(m[1])) + "s" : "● live now";
+                })
+                .catch(() => {
+                    clearTimeout(t);
+                    badge.textContent = "● live at site.tinkernet.me";
+                    badge.style.color = "var(--slate-lighter)";
+                    badge.style.borderColor = "var(--slate-light)";
+                });
+        })();
+
+        // ---- Cards ----
+        const cards = document.getElementById("cards");
+        PROJECTS.forEach(p => {
+            const c = document.createElement("div");
+            c.className = "card";
+            c.innerHTML = "<h3><a href='" + p.url + "' target='_blank' rel='noopener'>" + p.name + "</a></h3>"
+                + "<p>" + p.blurb + "</p><div class='tags'>" + p.tags.map(t => "<span class='tag'>" + t + "</span>").join("") + "</div>";
+            cards.appendChild(c);
+        });
+
+        // ---- Skills ----
+        const sl = document.getElementById("skills-list");
+        SKILLS.forEach(([a, t]) => {
+            const r = document.createElement("div");
+            r.className = "skillrow";
+            r.innerHTML = "<div class='area'>" + a + "</div><div class='tools'>" + t + "</div>";
+            sl.appendChild(r);
+        });
+
+        // ---- Theme ----
+        function toggleTheme() {
+            const cur = document.documentElement.getAttribute("data-theme");
+            const next = cur === "light" ? "dark" : "light";
+            if (next === "dark") document.documentElement.removeAttribute("data-theme");
+            else document.documentElement.setAttribute("data-theme", "light");
+            try { localStorage.setItem("theme", next); } catch (e) { }
+        }
+        document.getElementById("theme-btn").addEventListener("click", toggleTheme);
+        try { if (localStorage.getItem("theme") === "light") document.documentElement.setAttribute("data-theme", "light"); } catch (e) { }
+
+        input.focus();
     </script>
 </body>
 
