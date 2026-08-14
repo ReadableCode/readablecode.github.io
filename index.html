@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ReadableCode — Jason Christiansen</title>
+    <title>ReadableCode - Jason Christiansen</title>
     <meta name="description"
-        content="Jason Christiansen (ReadableCode) — developer focused on automation, modular tools, and self-hosting. Interactive terminal portfolio.">
+        content="Jason Christiansen (ReadableCode). Automation, reusable tools, and self-hosting. Interactive terminal portfolio.">
     <style>
         :root {
             --slate: #4C6375;
@@ -462,8 +462,8 @@
         <!-- DEMO 2: herd monitor -->
         <section id="herd">
             <h2>// herd monitor</h2>
-            <p class="out-dim" style="font-family:var(--mono);font-size:.85rem;">A nod to <a
-                    href="https://github.com/ReadableCode/herdstone" target="_blank" rel="noopener">herdstone</a> —
+            <p class="out-dim" style="font-family:var(--mono);font-size:.85rem;">The same idea as <a
+                    href="https://github.com/ReadableCode/herdstone" target="_blank" rel="noopener">herdstone</a>:
                 concurrent pings fanning out across a fleet. <button class="btn" id="reping">re-ping</button></p>
             <div class="herd" id="herd-grid"></div>
         </section>
@@ -475,10 +475,10 @@
                 <span class="badge" id="proof-badge">● checking live site…</span>
                 <div style="flex:1;min-width:200px;">
                     <div id="proof-text" class="out-dim" style="font-size:.9rem;">
-                        The twin of this page at <a href="https://site.tinkernet.me" target="_blank"
-                            rel="noopener">site.tinkernet.me</a> is served live from my own homelab —
-                        React front end, FastAPI back end, behind a self-hosted reverse proxy with real uptime.
-                        This GitHub Pages copy is the fast static mirror.
+                        This GitHub Pages copy is the static mirror. The same site at <a
+                            href="https://site.tinkernet.me" target="_blank"
+                            rel="noopener">site.tinkernet.me</a> is served live from my own homelab:
+                        React frontend, FastAPI backend, behind a self-hosted reverse proxy with real uptime.
                     </div>
                 </div>
                 <a class="btn" href="https://site.tinkernet.me" target="_blank" rel="noopener"
@@ -499,7 +499,7 @@
         </section>
 
         <footer>
-            <span>Built &amp; self-hosted by Jason Christiansen · always up for collaboration.</span>
+            <span>Built and self-hosted by Jason Christiansen.</span>
             <span>
                 <a href="https://site.tinkernet.me" target="_blank" rel="noopener">live site</a> ·
                 <a href="https://github.com/ReadableCode" target="_blank" rel="noopener">github</a>
@@ -508,20 +508,20 @@
     </div>
 
     <script>
-        // ---- Canonical data (mirrors the live site + profile) ----
+        // ---- Data (mirrors the live site + profile) ----
         const PROJECTS = [
-            { id: "data-tool-pack", name: "Data Tool Pack (Py·Go·Rust)", url: "https://github.com/ReadableCode/Data_Tool_Pack_Py", blurb: "Batteries-included data-engineering toolkit: uniform connectors for Snowflake, Databricks, S3, Vault, DuckDB, Google Workspace, and Looker — analytics without the setup tax. Three language editions.", tags: ["Python", "Go", "Rust", "data"] },
-            { id: "herdstone", name: "herdstone", url: "https://github.com/ReadableCode/herdstone", blurb: "A machine-herd monitor: one Python engine, three thin UIs (Typer CLI, Textual TUI, NiceGUI web) that import it in-process — no internal REST layer. Concurrent ping fan-out, JSON-driven inventory, Ansible importer.", tags: ["Python", "Textual", "asyncio"] },
-            { id: "load-log", name: "load-log", url: "https://github.com/ReadableCode/load-log", blurb: "Health tracker with a Textual TUI and Streamlit web UI over a shared data plane. Neither UI touches Postgres directly — both go through PostgREST with JWT auth and Row-Level Security.", tags: ["PostgREST", "JWT", "RLS"] },
-            { id: "postgrest-auth", name: "postgrest-auth", url: "https://github.com/ReadableCode/postgrest-auth", blurb: "A small, app-agnostic JWT auth microservice beside PostgREST: POST /token verifies a bcrypt hash and returns a JWT carrying the Postgres role + user id for RLS. Add once, reuse everywhere.", tags: ["FastAPI", "JWT", "bcrypt"] },
-            { id: "book-bot", name: "Book-Bot", url: "https://github.com/ReadableCode/Book-Bot", blurb: "Offline-first, AI-powered eBook organizer. A local LLM (no internet/accounts) infers author, series, order & title from messy folders and rebuilds clean nested libraries — with a swap path to hosted APIs.", tags: ["Python", "local-LLM", "SQLite"] },
-            { id: "terminal-todo", name: "Terminal To-Do", url: "https://github.com/ReadableCode/Terminal_To_Do", blurb: "A terminal Kanban board driven by Linux-like commands, with pluggable cloud-backed storage (self-hosted MinIO/S3 or Google Sheets).", tags: ["Python", "TUI", "MinIO"] },
-            { id: "dotfiles", name: "dotfiles", url: "https://github.com/ReadableCode/dotfiles", blurb: "Cross-platform config-sync & provisioning across Linux, Windows, macOS, Android, a router, and a NAS. Pulls configs over SSH/SCP, provisions with Ansible, ships a Go git_puller cross-compiled for four targets.", tags: ["Ansible", "Go", "Bash"] },
-            { id: "trojan-force", name: "Trojan-Force", url: "https://github.com/ReadableCode/Trojan-Force", blurb: "A browser tower-defense game (TypeScript + Phaser 3 + Vite): mine resources, build supply chains, survive 20 waves. Hand-rolled pathfinding, resource manager, and event bus.", tags: ["TypeScript", "Phaser 3"] },
-            { id: "docker", name: "Self-hosted platform", url: "https://github.com/ReadableCode/Docker", blurb: "The infra everything runs on: multi-host Docker Compose behind a SWAG reverse proxy with automatic TLS + dynamic DNS, private registry, self-hosted secrets, metrics — plus push-to-master auto-deploy.", tags: ["Docker", "SWAG", "self-hosting"] },
-            { id: "duck-db-api", name: "duck_db_api", url: "https://github.com/ReadableCode/duck_db_api", blurb: "A thin FastAPI service over DuckDB for ad-hoc table create/insert/query, with basic safety guards and file-upload ingestion.", tags: ["FastAPI", "DuckDB"] },
-            { id: "cash-flow-commander", name: "Cash Flow Commander", url: "https://github.com/ReadableCode/Cash_Flow_Commander", blurb: "A personal-finance manager designed for multiple front-ends over pluggable storage backends — Postgres today, Sheets/SQLite/Excel planned.", tags: ["Python", "Postgres"] },
-            { id: "georgetown", name: "A Girl's Guide to Georgetown", url: "https://github.com/ReadableCode/a_girls_guide_to_georgetown", blurb: "A student-led dev platform: a Go/Fiber backend dynamically serves pages so students own the HTML/CSS/JS and iterate without backend rebuilds.", tags: ["Go", "Fiber", "Docker"] }
+            { id: "data-tool-pack", name: "Data Tool Pack (Python / Go / Rust)", url: "https://github.com/ReadableCode/Data_Tool_Pack_Py", blurb: "Uniform connectors for Snowflake, Databricks, S3, Vault, DuckDB, Google Workspace, and Looker, so analytics work doesn't start with a day of setup. Python, Go, and Rust editions.", tags: ["Python", "Go", "Rust", "data"] },
+            { id: "herdstone", name: "herdstone", url: "https://github.com/ReadableCode/herdstone", blurb: "A machine-herd monitor. One Python engine with three thin UIs (Typer CLI, Textual TUI, NiceGUI web) that import it in-process, no internal REST layer. Concurrent ping fan-out, JSON-driven inventory, Ansible importer.", tags: ["Python", "Textual", "asyncio"] },
+            { id: "load-log", name: "load-log", url: "https://github.com/ReadableCode/load-log", blurb: "A health tracker with a Textual TUI and a Streamlit web UI over shared storage. Neither UI touches Postgres directly: both go through PostgREST with JWT auth and row-level security.", tags: ["PostgREST", "JWT", "RLS"] },
+            { id: "postgrest-auth", name: "postgrest-auth", url: "https://github.com/ReadableCode/postgrest-auth", blurb: "A small JWT auth service that sits next to PostgREST: POST /token checks a bcrypt hash and returns a JWT carrying the Postgres role and user id for RLS. Written once, used by my other apps.", tags: ["FastAPI", "JWT", "bcrypt"] },
+            { id: "book-bot", name: "Book-Bot", url: "https://github.com/ReadableCode/Book-Bot", blurb: "An offline eBook organizer. A local LLM (no internet or accounts required) works out author, series, order, and title from messy folders and rebuilds the library into clean nested folders. Can be pointed at hosted APIs instead.", tags: ["Python", "local-LLM", "SQLite"] },
+            { id: "terminal-todo", name: "Terminal To-Do", url: "https://github.com/ReadableCode/Terminal_To_Do", blurb: "A terminal Kanban board driven by Linux-like commands, with pluggable storage (self-hosted MinIO/S3 or Google Sheets).", tags: ["Python", "TUI", "MinIO"] },
+            { id: "dotfiles", name: "dotfiles", url: "https://github.com/ReadableCode/dotfiles", blurb: "Config sync and provisioning across Linux, Windows, macOS, Android, a router, and a NAS. Pulls configs over SSH/SCP, provisions with Ansible, and includes a Go git_puller cross-compiled for four OS/arch targets.", tags: ["Ansible", "Go", "Bash"] },
+            { id: "trojan-force", name: "Trojan-Force", url: "https://github.com/ReadableCode/Trojan-Force", blurb: "A browser tower-defense game (TypeScript, Phaser 3, Vite): mine resources, build supply chains, survive 20 waves. Custom pathfinding, resource manager, and event bus, plus LAN multi-device play.", tags: ["TypeScript", "Phaser 3"] },
+            { id: "docker", name: "Self-hosted platform", url: "https://github.com/ReadableCode/Docker", blurb: "The infrastructure everything else runs on: multi-host Docker Compose behind a SWAG reverse proxy with TLS and dynamic DNS, a private registry, self-hosted secrets, and metrics. Pushing to master redeploys whatever changed.", tags: ["Docker", "SWAG", "self-hosting"] },
+            { id: "duck-db-api", name: "duck_db_api", url: "https://github.com/ReadableCode/duck_db_api", blurb: "A thin FastAPI service over DuckDB for ad-hoc table create/insert/query, with basic safety guards and file upload ingestion.", tags: ["FastAPI", "DuckDB"] },
+            { id: "cash-flow-commander", name: "Cash Flow Commander", url: "https://github.com/ReadableCode/Cash_Flow_Commander", blurb: "A personal finance manager built for multiple frontends over pluggable storage backends. Postgres today; Sheets, SQLite, and Excel planned.", tags: ["Python", "Postgres"] },
+            { id: "georgetown", name: "A Girl's Guide to Georgetown", url: "https://github.com/ReadableCode/a_girls_guide_to_georgetown", blurb: "A Go/Fiber backend that serves pages dynamically for a student-run site, so the students own the HTML/CSS/JS and can iterate without backend rebuilds.", tags: ["Go", "Fiber", "Docker"] }
         ];
         const SKILLS = [
             ["Languages", "Python (uv), TypeScript, Go, Rust, SQL, Bash / PowerShell / AutoHotkey, C#"],
@@ -533,10 +533,10 @@
             ["Infra / DevOps", "Docker & multi-host Compose, SWAG + TLS + dynamic DNS, private registry, Ansible, k3s, Tailscale, uv, push-to-master auto-deploy"],
             ["AI", "Local-LLM inference with a swappable OpenAI backend"]
         ];
-        const BIO = `Greetings! I'm Jason — "ReadableCode". I'm a developer dedicated to automation
-and modular, reusable solutions to problems I find interesting. Everything here
-is a personal project; most of it runs on a self-hosted homelab wired together
-with Docker and auto-deployed on push. Please comment, fork, and contribute.`;
+        const BIO = `I'm Jason, ReadableCode on GitHub. I build automation and reusable tools
+for problems I find interesting. Everything here is a personal project;
+most of it runs on my homelab, wired together with Docker and redeployed
+on push. Comments, forks, and PRs are welcome.`;
         const NODES = ["atlas", "nimbus", "cinder", "willow", "pascal", "juniper", "onyx", "harbor"];
 
         // ---- Terminal ----
@@ -563,12 +563,12 @@ with Docker and auto-deployed on push. Please comment, fork, and contribute.`;
                 print("  clear      help");
             },
             about() { BIO.split("\n").forEach(l => print(esc(l))); },
-            whoami() { print("jason — ReadableCode. developer, automator, homelab tinkerer.", "out-accent"); },
+            whoami() { print("jason (ReadableCode). developer, automator, homelab tinkerer.", "out-accent"); },
             skills() {
                 SKILLS.forEach(([a, t]) => print("<span class='out-accent'>" + esc(a).padEnd(22) + "</span>" + esc(t)));
             },
             projects() {
-                print("open a project with <span class='out-amber'>open &lt;name&gt;</span> — e.g. <span class='out-amber'>open herdstone</span>", "out-dim");
+                print("open a project with <span class='out-amber'>open &lt;name&gt;</span>, e.g. <span class='out-amber'>open herdstone</span>", "out-dim");
                 PROJECTS.forEach(p => print("  <span class='out-accent'>" + esc(p.id).padEnd(22) + "</span>" + esc(p.name)));
             },
             ls() { print(PROJECTS.map(p => p.id).join("   "), "out-dim"); },
@@ -590,8 +590,8 @@ with Docker and auto-deployed on push. Please comment, fork, and contribute.`;
             print("<span class='out-dim'>$ curl https://site.tinkernet.me/api/my-info</span>");
             BIO.split("\n").forEach(l => print(esc(l)));
             print("");
-            print("↑ on this static mirror that's a canned copy. On the live site it's my", "out-dim");
-            print("real FastAPI backend answering — try it yourself:", "out-dim");
+            print("on this static mirror that's a canned copy. On the live site the", "out-dim");
+            print("FastAPI backend answers for real. Try it yourself:", "out-dim");
             print("<span class='out-amber'>curl https://site.tinkernet.me/api/my-info</span>");
         }
 
@@ -608,7 +608,7 @@ with Docker and auto-deployed on push. Please comment, fork, and contribute.`;
                 print("this terminal only knows <span class='out-amber'>curl /api/my-info</span>.", "out-amber"); return;
             }
             if (COMMANDS[name]) return COMMANDS[name]();
-            print("command not found: " + esc(name) + "  — type <span class='out-amber'>help</span>", "out-amber");
+            print("command not found: " + esc(name) + "  (type <span class='out-amber'>help</span>)", "out-amber");
         }
 
         input.addEventListener("keydown", e => {
@@ -627,7 +627,7 @@ with Docker and auto-deployed on push. Please comment, fork, and contribute.`;
         document.getElementById("term").addEventListener("click", () => input.focus());
 
         // boot
-        print("<span class='out-accent'>readablecode</span> // portfolio terminal — v1.0", "");
+        print("<span class='out-accent'>readablecode</span> // portfolio terminal v1.0", "");
         print("type <span class='out-amber'>help</span> to get started, or scroll for the graphical view.", "out-dim");
         print("");
 
