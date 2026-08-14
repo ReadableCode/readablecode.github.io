@@ -511,7 +511,7 @@
         // ---- Data (mirrors the live site + profile) ----
         // An empty url means the repo is private; renderers skip the link.
         const PROJECTS = [
-            { id: "sync-plex", name: "Sync_Plex", url: "https://github.com/ReadableCode/Sync_Plex", blurb: "A household media system: search and add shows or movies across every Sonarr, Radarr, and Plex server on the network from a CLI, a Textual TUI, or a phone-friendly web app, with user accounts and an approval queue. A companion tool mirrors selected titles onto an external drive for travel.", tags: ["Python", "Textual", "NiceGUI"] },
+            { id: "sync-plex", name: "Sync_Plex", url: "https://github.com/ReadableCode/Sync_Plex", blurb: "A household media system: search Plex libraries and add new shows or movies across the network's media servers from a CLI, a Textual TUI, or a phone-friendly web app, with user accounts and an approval queue. A companion tool mirrors selected titles onto an external drive for travel.", tags: ["Python", "Textual", "NiceGUI"] },
             { id: "herdstone", name: "herdstone", url: "https://github.com/ReadableCode/herdstone", blurb: "A machine-herd monitor. One Python engine with three thin UIs (Typer CLI, Textual TUI, NiceGUI web) that import it in-process, no internal REST layer. Concurrent ping fan-out, JSON-driven inventory, Ansible importer.", tags: ["Python", "Textual", "asyncio"] },
             { id: "status-board", name: "status_board", url: "https://github.com/ReadableCode/status_board", blurb: "A terminal dashboard showing remote cron job status over SSH and pull requests awaiting my review across several accounts, in one pane. Panel definitions live in separate config repos, and SSH jump chains are part of the config so it behaves the same on every machine.", tags: ["Python", "Textual", "SSH"] },
             { id: "readable-utils", name: "readable_utils", url: "https://github.com/ReadableCode/readable_utils", blurb: "A versioned Python utility package that replaced the helper directories I used to copy between repos. Installed from git by tag, with optional dependency extras so each consumer only installs what it needs. Used by herdstone, status_board, and others.", tags: ["Python", "packaging", "uv"] },
@@ -526,13 +526,15 @@
         ];
         const SKILLS = [
             ["Languages", "Python (uv), TypeScript, Go, Rust, SQL, Bash / PowerShell / AutoHotkey, C#"],
-            ["Web / API", "FastAPI, React 19 + Vite, Streamlit, NiceGUI, Phaser 3"],
-            ["TUI / CLI", "Textual, Typer, custom terminal apps"],
+            ["Web / API", "FastAPI, React 19 + Vite, nginx, Streamlit, NiceGUI, Phaser 3"],
+            ["TUI / CLI", "Textual, Typer, Rich, custom terminal apps"],
             ["Data", "pandas, DuckDB, warehouse connectors (Snowflake/Databricks/Looker), OCR/PDF"],
             ["Databases / storage", "PostgreSQL + PostgREST, Alembic + RLS, SQLite, MinIO/S3, Vault"],
-            ["Auth / security", "JWT (HS256), bcrypt, Postgres Row-Level Security"],
-            ["Infra / DevOps", "Docker & multi-host Compose, SWAG + TLS + dynamic DNS, Authelia, private registry, Grafana + ntfy, Ansible, k3s, Tailscale, uv, push-to-master auto-deploy"],
-            ["AI", "Local-LLM inference with a swappable OpenAI backend"]
+            ["Auth / security", "Authelia SSO, JWT (HS256), bcrypt/argon2, Postgres Row-Level Security"],
+            ["Infra / DevOps", "Docker & multi-host Compose, SWAG + TLS + dynamic DNS, private registry, Grafana + ntfy, Ansible, k3s, Tailscale, WireGuard, push-to-master auto-deploy"],
+            ["Automation / ops", "SSH automation (paramiko, jump hosts), scheduled backups (Postgres dumps, rsync offsite), Home Assistant"],
+            ["Testing / quality", "pytest, mypy, ESLint, GitHub Actions"],
+            ["AI", "Local LLM serving (llama.cpp, CUDA), swappable OpenAI backend, agent-assisted development with Claude Code"]
         ];
         const BIO = `I'm Jason, ReadableCode on GitHub. I build automation and reusable tools
 for problems I find interesting. Everything here is a personal project;
